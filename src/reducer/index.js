@@ -1,9 +1,9 @@
-import {INCREMENT} from '../constants'
+import counterReducer from './counter'
+import oneOtherMetricReducer from './oneOtherMetric'
 
 export default (state, action) => {
-    // eslint-disable-next-line
-    switch (action.type) {
-        case INCREMENT: return state + 1
+    return {
+        count: counterReducer(state.count, action),
+        oneOtherMetric: oneOtherMetricReducer(state.oneOtherMetric, action)
     }
-    return state
 }

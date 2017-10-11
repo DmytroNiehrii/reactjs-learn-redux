@@ -1,40 +1,28 @@
 import React, {Component, PropTypes} from 'react';
-import store from '../store'
+//import store from '../store'
 import {increment} from '../AC'
+import connect from '../decorators/connect'
 
-export default class Counter extends Component {
+class Counter extends Component {
     static propTypes = {
     };
-
-    state = {
-        count: store.getState().count
-    }
-
-    componentDidMount() {
-        this.unsubscribe = store.subscribe(this.handleStoreChange)
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
 
     render() {
         return (
             <div>
-                <h2>{this.state.count}</h2>
+                <h2>{this.props.count}</h2>
                 <button onClick={this.handleIncrement}>increment</button>
             </div>
         )
     }
 
-    handleIncrement = (ev)=> {
+    handleIncrement = ev => {
         ev.preventDefault()
-        store.dispatch(increment())
-    }
-
-    handleStoreChange = () => {
-        this.setState({
-            count: store.getState().count
-        })
+        this.props.increment()
     }
 }
+
+export default connect(
+    (state) => ({count: state.count}),
+    {increment}
+)(Counter)

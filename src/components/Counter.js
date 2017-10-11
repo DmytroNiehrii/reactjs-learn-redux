@@ -2,12 +2,26 @@ import React, {Component, PropTypes} from 'react';
 import store from '../store'
 import {increment} from '../AC'
 
-class Counter extends Component {
+export default class Counter extends Component {
+    static propTypes = {
+    };
+
+    state = {
+        count: store.getState()
+    }
+
+    componentDidMount() {
+        this.unsubscribe = store.subscribe(this.handleStoreChange)
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
 
     render() {
         return (
             <div>
-                <h2>{store.getState()}</h2>
+                <h2>{this.state.count}</h2>
                 <button onClick={this.handleIncrement}>increment</button>
             </div>
         )
@@ -17,6 +31,10 @@ class Counter extends Component {
         ev.preventDefault()
         store.dispatch(increment())
     }
-}
 
-export default Counter;
+    handleStoreChange = () => {
+        this.setState({
+            count: store.getState()
+        })
+    }
+}

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import store from '../store'
+import {increment} from '../AC'
 
 class Counter extends Component {
 
@@ -14,6 +15,7 @@ class Counter extends Component {
 
     handleIncrement = (ev)=> {
         ev.preventDefault()
+        store.dispatch(increment())
     }
 }
 
